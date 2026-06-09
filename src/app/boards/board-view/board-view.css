@@ -1,0 +1,312 @@
+.layout-container {
+  display: flex;
+  height: calc(100vh - 44px);
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.board-header {
+  padding: 8px 16px;
+  background-color: rgba(0,0,0,0.24);
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.board-name {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 16px 0 0;
+  cursor: pointer;
+  padding: 0 8px;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 3px;
+  transition: background-color 0.2s;
+}
+
+.board-name:hover {
+  background-color: rgba(255,255,255,0.2);
+}
+
+.board-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.header-btn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.header-btn:hover {
+  background-color: rgba(255,255,255,0.3);
+}
+
+.divider {
+  width: 1px;
+  height: 16px;
+  background-color: rgba(255,255,255,0.24);
+  margin: 0 8px;
+}
+
+.board-members {
+  display: flex;
+  align-items: center;
+}
+
+.member-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #DFE1E6;
+  color: var(--trello-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.member-add {
+  background-color: white;
+  color: var(--trello-text);
+}
+
+.member-add:hover {
+  background-color: #F4F5F7;
+}
+
+.board-canvas {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 12px 8px;
+}
+
+.lists-container {
+  display: flex;
+  align-items: flex-start;
+  height: 100%;
+}
+
+.list-wrapper {
+  width: 272px;
+  margin: 0 4px;
+  height: 100%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.list {
+  background-color: var(--trello-column-bg);
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+}
+
+.list-header {
+  padding: 10px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 20px;
+}
+
+.list-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--trello-text);
+  padding: 4px 8px;
+}
+
+.list-action-btn {
+  background: transparent;
+  border: none;
+  color: var(--trello-text-subtle);
+  width: 32px;
+  height: 32px;
+  border-radius: 3px;
+}
+
+.list-action-btn:hover {
+  background-color: rgba(9, 30, 66, 0.08);
+  color: var(--trello-text);
+}
+
+.list-cards {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 8px;
+  min-height: 10px;
+}
+
+/* Angular CDK Drag and Drop */
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 3px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  transform: rotate(3deg);
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.list-cards.cdk-drop-list-dragging .task-card:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.drag-placeholder {
+  background: rgba(9, 30, 66, 0.04);
+  border-radius: 3px;
+  min-height: 30px;
+  margin-bottom: 8px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.list-footer {
+  padding: 8px;
+}
+
+.open-add-card {
+  background: transparent;
+  border: none;
+  color: var(--trello-text-subtle);
+  padding: 6px 8px;
+  border-radius: 3px;
+  width: 100%;
+  text-align: left;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.open-add-card:hover {
+  background-color: rgba(9, 30, 66, 0.08);
+  color: var(--trello-text);
+}
+
+.add-card-form {
+  padding-bottom: 8px;
+}
+
+.add-card-input {
+  width: 100%;
+  border: none;
+  border-radius: 3px;
+  padding: 8px;
+  min-height: 54px;
+  resize: none;
+  box-shadow: 0 1px 1px rgba(9, 30, 66, 0.25);
+  margin-bottom: 8px;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.add-card-input:focus {
+  outline: none;
+}
+
+.add-card-controls {
+  display: flex;
+  align-items: center;
+}
+
+.add-btn {
+  background-color: var(--trello-blue);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.add-btn:hover {
+  background-color: var(--trello-blue-dark);
+}
+
+.cancel-btn {
+  background: transparent;
+  border: none;
+  color: var(--trello-text-subtle);
+  width: 32px;
+  height: 32px;
+  border-radius: 3px;
+  font-size: 16px;
+  margin-left: 4px;
+}
+
+.cancel-btn:hover {
+  color: var(--trello-text);
+}
+
+.add-list-wrapper {
+  background-color: rgba(255,255,255,0.24);
+  border-radius: 3px;
+  height: auto;
+  transition: background-color 0.2s;
+}
+
+.add-list-wrapper:hover {
+  background-color: rgba(255,255,255,0.32);
+}
+
+.add-list-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  width: 100%;
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.add-list-form {
+  background-color: var(--trello-column-bg);
+  border-radius: 3px;
+  padding: 8px;
+}
+
+.add-list-input {
+  width: 100%;
+  border: 2px solid var(--trello-blue);
+  border-radius: 3px;
+  padding: 6px 8px;
+  font-family: inherit;
+  font-size: 14px;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+
+.add-list-input:focus {
+  outline: none;
+}
+
+.add-list-controls {
+  display: flex;
+  align-items: center;
+}

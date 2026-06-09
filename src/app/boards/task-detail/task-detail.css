@@ -1,0 +1,578 @@
+/* ── Modal Overlay ──────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 16px;
+  overflow-y: auto;
+}
+
+.modal-content {
+  position: relative;
+  background: #1d2125;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 780px;
+  min-height: 400px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  color: #b6c2cf;
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  color: #9fadbc;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  z-index: 10;
+}
+.close-btn:hover { background: #2c333a; color: #fff; }
+
+.comment-box .comment-input-area.focused {
+  border-color: var(--trello-blue);
+  background-color: var(--trello-surface);
+}
+
+.member-chip span {
+  font-size: 14px;
+  color: var(--trello-text);
+}
+
+.completed-member-text {
+  text-decoration: line-through;
+  color: var(--trello-text-subtle) !important;
+}
+
+.completed-icon {
+  color: var(--trello-success);
+  margin-left: 4px;
+  font-size: 14px;
+}
+
+.comment-placeholder {
+  padding: 8px 12px;
+  color: var(--trello-text-subtle);
+  cursor: text;
+}
+
+quill-editor {
+  background: white;
+  border-radius: 3px;
+  min-height: 80px;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────── */
+.task-detail-container { padding: 24px; }
+
+.task-header {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  padding-right: 40px;
+}
+.header-icon { font-size: 18px; color: #9fadbc; margin-top: 4px; flex-shrink: 0; }
+.header-text h2 { margin: 0 0 4px; font-size: 20px; font-weight: 600; color: #e8ecf0; line-height: 1.3; }
+.in-list { margin: 0; font-size: 13px; color: #9fadbc; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.priority-badge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.priority-critical { background: #eb5a46; color: #fff; }
+.priority-high     { background: #ff9f1a; color: #fff; }
+.priority-medium   { background: #0052cc; color: #fff; }
+.priority-low      { background: #5aac44; color: #fff; }
+
+/* ── Body Layout ──────────────────────────────────────────────────── */
+.task-body {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ── Metadata rows (Labels / Members / Due Date) ─────────────────── */
+.metadata-row { margin-bottom: 16px; }
+.meta-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9fadbc;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 6px;
+}
+
+/* Labels */
+.labels-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.label-chip {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  cursor: default;
+}
+
+/* Members */
+.members-list { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.member-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #2c333a;
+  border-radius: 20px;
+  padding: 3px 10px 3px 4px;
+  font-size: 12px;
+  color: #b6c2cf;
+}
+
+/* Due Date */
+.due-date-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #2c333a;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.due-date-display:hover { background: #3a4046; }
+.due-date-display.overdue { background: #eb5a461a; color: #eb5a46; }
+.due-date-display.due-soon { background: #ff9f1a1a; color: #ff9f1a; }
+.due-badge {
+  background: #eb5a46;
+  color: #fff;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 5px;
+  text-transform: uppercase;
+}
+.due-badge.warning { background: #ff9f1a; }
+.due-date-edit { display: flex; flex-direction: column; gap: 8px; }
+.due-date-edit input { max-width: 200px; }
+
+/* ── Description ─────────────────────────────────────────────────── */
+.description-section { margin-bottom: 24px; }
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.section-header h3 { margin: 0; font-size: 15px; font-weight: 600; color: #e8ecf0; flex: 1; }
+.section-icon { color: #9fadbc; font-size: 16px; width: 20px; text-align: center; }
+.edit-desc-btn { margin-left: auto; }
+
+.description-text {
+  background: #2c333a;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #b6c2cf;
+  white-space: pre-wrap;
+  cursor: pointer;
+}
+.description-text:hover { background: #313940; }
+.empty-desc {
+  background: #2c333a;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 14px;
+  color: #7c8a98;
+  cursor: pointer;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.empty-desc:hover { background: #313940; }
+.description-edit textarea {
+  width: 100%;
+  resize: vertical;
+  background: #22272b;
+  border: 2px solid #0079bf;
+  color: #e8ecf0;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+/* ── Checklist ───────────────────────────────────────────────────── */
+.checklist-section { margin-bottom: 24px; }
+
+.checklist-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding-left: 30px;
+}
+.progress-pct { font-size: 11px; color: #9fadbc; min-width: 30px; text-align: right; }
+.progress-bar-track {
+  flex: 1;
+  height: 8px;
+  background: #2c333a;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: #0079bf;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+.progress-bar-fill.complete { background: #5aac44; }
+
+.checklist-items { display: flex; flex-direction: column; gap: 2px; padding-left: 4px; }
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+.checklist-item:hover { background: #2c333a; }
+.checklist-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #0079bf;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.checklist-item label {
+  flex: 1;
+  font-size: 14px;
+  color: #b6c2cf;
+  cursor: pointer;
+  line-height: 1.4;
+}
+.checklist-item label.completed {
+  text-decoration: line-through;
+  color: #7c8a98;
+}
+.item-delete-btn {
+  background: none;
+  border: none;
+  color: #7c8a98;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+}
+.checklist-item:hover .item-delete-btn { opacity: 1; }
+.item-delete-btn:hover { color: #eb5a46; }
+
+.add-item-btn {
+  margin-left: 4px;
+  font-size: 13px;
+  color: #9fadbc;
+  padding: 6px 10px;
+}
+.add-item-form { padding-left: 4px; display: flex; flex-direction: column; gap: 8px; }
+.add-item-form input { max-width: 400px; }
+
+/* ── Activity / Comments ─────────────────────────────────────────── */
+.activity-section { margin-bottom: 16px; }
+.comment-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+.comment-input-area { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.comment-input {
+  width: 100%;
+  resize: none;
+  min-height: 38px;
+  background: #22272b;
+  border: 1px solid #3b4754;
+  color: #e8ecf0;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.15s, min-height 0.2s;
+}
+.comment-input:focus { border-color: #0079bf; outline: none; min-height: 80px; }
+
+.comments-list { display: flex; flex-direction: column; gap: 16px; }
+.comment-item { display: flex; gap: 10px; align-items: flex-start; }
+.comment-content { flex: 1; }
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+.comment-author { font-size: 13px; font-weight: 600; color: #e8ecf0; }
+.comment-time { font-size: 12px; color: #7c8a98; }
+.edited-badge { font-size: 11px; color: #7c8a98; font-style: italic; }
+.comment-body {
+  background: #2c333a;
+  border-radius: 0 8px 8px 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #b6c2cf;
+  line-height: 1.5;
+}
+
+/* ── Sidebar ─────────────────────────────────────────────────────── */
+.sidebar-col { display: flex; flex-direction: column; gap: 16px; }
+
+.sidebar-module h3 {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #9fadbc;
+  margin: 0 0 6px;
+}
+
+.sidebar-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 12px;
+  background: #2c333a;
+  border: none;
+  border-radius: 6px;
+  color: #b6c2cf;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+  margin-bottom: 4px;
+}
+.sidebar-btn:hover { background: #3a4046; color: #e8ecf0; }
+.sidebar-btn.danger:hover { background: #eb5a4620; color: #eb5a46; }
+.sidebar-btn i { width: 14px; text-align: center; font-size: 13px; }
+
+/* ── Labels Panel ────────────────────────────────────────────────── */
+.labels-panel {
+  background: #2c333a;
+  border: 1px solid #3b4754;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.labels-panel h4 { margin: 0 0 8px; font-size: 12px; color: #9fadbc; text-align: center; }
+.label-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.label-option:hover { background: #3a4046; }
+.label-option.applied { background: #0079bf20; }
+.label-swatch { width: 36px; height: 18px; border-radius: 3px; flex-shrink: 0; }
+.label-option-name { flex: 1; font-size: 13px; color: #b6c2cf; }
+.label-option .fa-check { color: #5aac44; font-size: 12px; }
+
+.create-label-form {
+  border-top: 1px solid #3b4754;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.create-label-title { font-size: 11px; color: #9fadbc; margin: 0; text-transform: uppercase; font-weight: 600; }
+.color-swatches { display: flex; flex-wrap: wrap; gap: 4px; }
+.color-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.1s;
+}
+.color-swatch:hover { transform: scale(1.15); }
+.color-swatch.selected { border-color: #fff; }
+
+/* ── Add Checklist form ──────────────────────────────────────────── */
+.add-checklist-form {
+  background: #2c333a;
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+/* ── Shared Utilities ─────────────────────────────────────────────── */
+.edit-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+.form-control {
+  width: 100%;
+  padding: 8px 10px;
+  background: #22272b;
+  border: 1px solid #3b4754;
+  color: #e8ecf0;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+.form-control:focus { outline: none; border-color: #0079bf; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s, opacity 0.15s;
+}
+.btn-primary  { background: #0052cc; color: #fff; }
+.btn-primary:hover:not(:disabled) { background: #0065ff; }
+.btn-primary:disabled { opacity: 0.5; cursor: default; }
+.btn-secondary { background: #2c333a; color: #b6c2cf; }
+.btn-secondary:hover { background: #3a4046; }
+.btn-text { background: transparent; color: #9fadbc; padding: 6px 8px; }
+.btn-text:hover { color: #e8ecf0; background: #2c333a; }
+.btn-sm { padding: 4px 10px; font-size: 12px; }
+
+/* ── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .task-body { grid-template-columns: 1fr; }
+  .sidebar-col { order: -1; }
+  .modal-overlay { padding: 16px 8px; }
+}
+
+/* ── Members Panel ────────────────────────────────────────────────── */
+.members-panel {
+  max-height: 300px;
+  overflow-y: auto;
+}
+.members-panel .label-option {
+  padding: 8px;
+}
+
+/* ── Attachments ─────────────────────────────────────────────────── */
+.attachments-section { margin-bottom: 24px; }
+.attachments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.attachment-item {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.attachment-thumbnail {
+  width: 80px;
+  height: 60px;
+  background: #2c333a;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9fadbc;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.attachment-details { flex: 1; }
+.attachment-name {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #e8ecf0;
+}
+.attachment-meta {
+  margin: 0;
+  font-size: 12px;
+  color: #9fadbc;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Activity Timeline ────────────────────────────────────────────── */
+.activity-timeline {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.activity-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.activity-content {
+  flex: 1;
+  background: transparent;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #b6c2cf;
+}
+.activity-user {
+  font-weight: 600;
+  color: #e8ecf0;
+  margin-right: 6px;
+}
+.activity-time {
+  color: #7c8a98;
+  font-size: 12px;
+  margin-left: 6px;
+}
+
+/* ── Comments ────────────────────────────────────────────────────── */
+.comment-item-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+.comment-edit textarea {
+  margin-bottom: 8px;
+}
+

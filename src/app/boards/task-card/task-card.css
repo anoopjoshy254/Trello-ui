@@ -1,0 +1,93 @@
+.task-card {
+  background-color: var(--trello-card-bg);
+  border-radius: 3px;
+  box-shadow: 0 1px 1px rgba(9, 30, 66, 0.25), 0 0 0 1px rgba(9, 30, 66, 0.08);
+  padding: 8px 8px 4px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  position: relative;
+  transition: background-color 0.1s;
+}
+
+.task-card:hover {
+  background-color: #F4F5F7;
+}
+
+.task-title {
+  color: var(--trello-text);
+  font-size: 14px;
+  line-height: 20px;
+  word-wrap: break-word;
+  margin-bottom: 4px;
+}
+
+.task-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--trello-text-subtle);
+  font-size: 12px;
+}
+
+.badge i {
+  font-size: 12px;
+}
+
+.overdue {
+  background-color: var(--trello-red);
+  color: white;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.overdue i {
+  color: white;
+}
+
+.task-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.priority i {
+  font-size: 12px;
+}
+
+.text-danger { color: var(--trello-red); }
+.text-warning { color: var(--trello-yellow); }
+.text-info { color: var(--trello-blue); }
+.text-muted { color: var(--trello-text-subtle); }
+
+.members {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.member-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #DFE1E6;
+  color: var(--trello-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+  margin-left: -4px;
+  border: 2px solid var(--trello-card-bg);
+}
+
+.task-card:hover .member-avatar {
+  border-color: #F4F5F7;
+}

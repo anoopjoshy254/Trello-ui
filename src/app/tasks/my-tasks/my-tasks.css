@@ -1,0 +1,218 @@
+.layout-container {
+  display: flex;
+  height: calc(100vh - 44px);
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: auto;
+  background-color: #F4F5F7;
+}
+
+.my-tasks-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  width: 100%;
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.header h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--trello-text);
+  margin: 0 0 8px 0;
+}
+
+.subtitle {
+  color: var(--trello-text-subtle);
+  margin: 0;
+  font-size: 14px;
+}
+
+.tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.task-row {
+  background: white;
+  border-radius: 3px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 2px rgba(9, 30, 66, 0.1);
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.task-row:hover {
+  background-color: #FAFBFC;
+  box-shadow: 0 2px 4px rgba(9, 30, 66, 0.15);
+}
+
+.task-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title-text {
+  font-weight: 500;
+  color: var(--trello-text);
+  font-size: 15px;
+}
+
+.project-badge {
+  font-size: 12px;
+  color: var(--trello-text-subtle);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.task-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-badge {
+  background-color: #DFE1E6;
+  color: #172B4D;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.priority-badge {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.priority-high { color: #DE350B; }
+.priority-medium { color: #FF991F; }
+.priority-low { color: #0065FF; }
+
+.due-date {
+  font-size: 12px;
+  color: var(--trello-text-subtle);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.due-date.overdue {
+  color: #DE350B;
+  font-weight: 500;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(9, 30, 66, 0.1);
+}
+
+.empty-state i {
+  font-size: 48px;
+  color: var(--trello-text-subtle);
+  margin-bottom: 16px;
+}
+
+.empty-state h3 {
+  font-size: 18px;
+  color: var(--trello-text);
+  margin: 0 0 8px 0;
+}
+
+.empty-state p {
+  color: var(--trello-text-subtle);
+  margin: 0;
+}
+
+/* Progress Bar Styles */
+.tasks-progress {
+  margin-top: 16px;
+  background: white;
+  padding: 16px;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(9, 30, 66, 0.1);
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--trello-text-subtle);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.progress-bar-track {
+  height: 8px;
+  background-color: #DFE1E6;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #0052CC;
+  border-radius: 4px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.progress-bar-fill.complete {
+  background-color: #61BD4F;
+}
+
+/* Checkbox Styles */
+.task-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.title-text {
+  font-weight: 500;
+  color: var(--trello-text);
+  font-size: 15px;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.title-text.completed {
+  color: var(--trello-text-subtle);
+  text-decoration: line-through;
+}
+
+.task-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #0052CC;
+}
+
+.project-badge {
+  font-size: 12px;
+  color: var(--trello-text-subtle);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}

@@ -1,0 +1,51 @@
+<div class="auth-layout">
+  <div class="auth-card">
+    <div class="logo-container">
+      <i class="fa-brands fa-trello logo-icon"></i>
+      <h1>Trello</h1>
+    </div>
+
+    <h5 class="subtitle">Log in to continue</h5>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <input 
+          type="email" 
+          formControlName="email" 
+          placeholder="Enter your email" 
+          class="form-control"
+          [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+        />
+        <div class="error-msg" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+          Valid email is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <input 
+          type="password" 
+          formControlName="password" 
+          placeholder="Enter password" 
+          class="form-control"
+          [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+        />
+        <div class="error-msg" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          Password is required
+        </div>
+      </div>
+
+      <div class="error-alert" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Log in</span>
+        <app-spinner *ngIf="isLoading" [fullScreen]="false" message=""></app-spinner>
+      </button>
+    </form>
+
+    <div class="auth-links">
+      <a routerLink="/register">Sign up for an account</a>
+    </div>
+  </div>
+</div>

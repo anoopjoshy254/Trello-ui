@@ -1,0 +1,66 @@
+<app-header></app-header>
+
+<div class="layout-container">
+  <app-sidebar [collapsed]="isSidebarCollapsed"></app-sidebar>
+  
+  <div class="main-content">
+    <app-spinner *ngIf="isLoading" [fullScreen]="false"></app-spinner>
+
+    <div class="my-tasks-container" *ngIf="!isLoading">
+      <div class="header">
+        <h1>My Tasks</h1>
+        <p class="subtitle">Tasks assigned to you across all projects.</p>
+        
+        <div class="tasks-progress" *ngIf="tasks.length > 0">
+          <div class="progress-info">
+            <span>Overall Progress</span>
+            <span>{{ progressPercentage }}%</span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" 
+                 [style.width.%]="progressPercentage"
+                 [class.complete]="progressPercentage === 100"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tasks-list" *ngIf="tasks.length > 0; else noTasks">
+        <div class="task-row" *ngFor="let task of tasks" (click)="openTaskDetails(task.id)">
+          <div class="task-title">
+            <input type="checkbox" class="task-checkbox" 
+                   [checked]="isMyAssignmentCompleted(task)" 
+                   (click)="toggleTaskCompletion(task, $event)" />
+            <span class="title-text" [class.completed]="isMyAssignmentCompleted(task)">{{ task.title }}</span>
+            <span class="project-badge" *ngIf="task.projectId"><i class="fa-solid fa-folder"></i> Project #{{ task.projectId }}</span>
+          </div>
+          <div class="task-meta">
+            <span class="status-badge" [ngClass]="'status-' + task.status.toLowerCase()">{{ task.status }}</span>
+            <span class="priority-badge" [ngClass]="'priority-' + task.priority.toLowerCase()">
+              <i class="fa-solid fa-flag"></i> {{ task.priority }}
+            </span>
+            <span class="due-date" *ngIf="task.dueDate" [class.overdue]="(task.dueDate | date:'yyyyMMdd')! < (currentDate | date:'yyyyMMdd')!">
+              <i class="fa-regular fa-clock"></i> {{ task.dueDate | date:'MMM d' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noTasks>
+        <div class="empty-state">
+          <i class="fa-regular fa-face-smile"></i>
+          <h3>You're all caught up!</h3>
+          <p>You don't have any tasks assigned to you right now.</p>
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+</div>
+
+<app-task-detail 
+  *ngIf="selectedTaskId"
+  [taskId]="selectedTaskId" 
+  [isOpen]="isTaskDetailOpen"
+  (close)="closeTaskDetails()"
+  (taskUpdated)="onTaskUpdated($event)">
+</app-task-detail>

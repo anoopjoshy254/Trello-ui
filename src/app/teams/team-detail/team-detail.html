@@ -1,0 +1,90 @@
+<app-header></app-header>
+
+<div class="layout-container">
+  <app-sidebar [collapsed]="false"></app-sidebar>
+  
+  <div class="main-content">
+    <app-spinner *ngIf="isLoading" [fullScreen]="false"></app-spinner>
+
+    <div class="team-container" *ngIf="!isLoading && team">
+      
+      <div class="team-header">
+        <div class="team-header-content">
+          <div class="team-icon">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <div class="team-info">
+            <h1>{{ team.name }}</h1>
+            <p *ngIf="team.description"><i class="fa-solid fa-lock"></i> Private</p>
+          </div>
+        </div>
+        <button class="btn btn-secondary"><i class="fa-solid fa-pen"></i> Edit team profile</button>
+      </div>
+
+      <div class="team-tabs">
+        <a class="tab active">Members ({{ members.length }})</a>
+        <a class="tab">Settings</a>
+      </div>
+
+      <div class="members-section">
+        <div class="section-header">
+          <h2>Team members ({{ members.length }})</h2>
+          <button class="btn btn-primary" (click)="openAddMemberModal()"><i class="fa-solid fa-user-plus"></i> Invite Workspace members</button>
+        </div>
+        <p class="section-desc">Workspace members can view and join all Workspace visible boards and create new boards in the Workspace.</p>
+
+        <div class="members-list">
+          <div class="member-item" *ngFor="let member of members">
+            <app-avatar [fullName]="member.fullName" size="large"></app-avatar>
+            <div class="member-details">
+              <h3>{{ member.fullName }}</h3>
+              <p>&#64;{{ member.email ? member.email.split('@')[0] : '' }}</p>
+            </div>
+            <div class="member-actions">
+              <span class="role-badge">{{ member.teamRole }}</span>
+              <button class="btn btn-secondary remove-btn" (click)="removeMember(member.userId)">
+                <i class="fa-solid fa-xmark"></i> Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Add Member Modal -->
+<div class="modal-overlay" *ngIf="isAddMemberModalOpen" (click)="closeAddMemberModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Invite to Workspace</h3>
+      <button class="close-btn" (click)="closeAddMemberModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="search-box">
+        <input type="text" [(ngModel)]="searchQuery" (keyup)="searchUsers()" class="form-control" placeholder="Email address or name" autofocus />
+        <i class="fa-solid fa-spinner fa-spin search-spinner" *ngIf="isSearching"></i>
+      </div>
+
+      <div class="search-results">
+        <div class="search-item" *ngFor="let user of searchResults">
+          <app-avatar [fullName]="user.firstName + ' ' + user.lastName" size="medium"></app-avatar>
+          <div class="user-info">
+            <span class="user-name">{{ user.firstName }} {{ user.lastName }}</span>
+            <span class="user-email">{{ user.email }}</span>
+          </div>
+          <button class="btn btn-secondary btn-sm" (click)="addMember(user)">Add</button>
+        </div>
+        
+        <div class="empty-results" *ngIf="searchQuery && !isSearching && searchResults.length === 0">
+          <span *ngIf="!isEmail(searchQuery)">No users found.</span>
+          <div *ngIf="isEmail(searchQuery)" class="invite-email-box">
+            <p>Invite <strong>{{ searchQuery }}</strong> to this workspace.</p>
+            <button class="btn btn-primary btn-sm" (click)="inviteByEmail()">Send Invitation</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

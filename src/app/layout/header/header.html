@@ -1,0 +1,55 @@
+<header class="app-header">
+  <div class="header-left">
+    <a routerLink="/boards" class="logo">
+      <i class="fa-solid fa-table-list"></i>
+      <span class="logo-text">Trello</span>
+    </a>
+    
+    <nav class="main-nav" *ngIf="authService.isLoggedIn()">
+      <div class="nav-item">Workspaces <i class="fa-solid fa-chevron-down ms-1"></i></div>
+      <div class="nav-item">Recent <i class="fa-solid fa-chevron-down ms-1"></i></div>
+      <div class="nav-item">Starred <i class="fa-solid fa-chevron-down ms-1"></i></div>
+      <button class="create-btn">Create</button>
+    </nav>
+  </div>
+
+  <div class="header-right" *ngIf="authService.isLoggedIn()">
+    <div class="search-container">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input type="text" class="search-input" placeholder="Search" />
+    </div>
+
+    <button class="icon-btn notification-btn" (click)="toggleNotificationPanel()">
+      <i class="fa-regular fa-bell"></i>
+      <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+    </button>
+
+    <div class="profile-container">
+      <button class="profile-btn" (click)="toggleProfileMenu()">
+        <app-avatar [fullName]="fullName" size="small"></app-avatar>
+      </button>
+
+      <div class="dropdown-menu" *ngIf="isProfileMenuOpen">
+        <div class="dropdown-header">
+          <div class="user-info">
+            <span class="user-name">{{ fullName }}</span>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <a routerLink="/profile" class="dropdown-item" (click)="isProfileMenuOpen = false">Profile</a>
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item text-danger" (click)="logout()">Log out</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="header-right guest" *ngIf="!authService.isLoggedIn()">
+    <a routerLink="/login" class="nav-link">Log in</a>
+    <a routerLink="/register" class="btn btn-primary">Sign up</a>
+  </div>
+
+  <app-notification-panel 
+    *ngIf="isNotificationPanelOpen" 
+    (close)="isNotificationPanelOpen = false">
+  </app-notification-panel>
+</header>

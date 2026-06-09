@@ -1,0 +1,43 @@
+<div class="task-card" (click)="onClick()">
+  <!-- Cover Image/Color can go here if implemented -->
+
+  <div class="task-title">
+    {{ task.title }}
+  </div>
+
+  <div class="task-badges" *ngIf="task.description || hasAttachments || hasComments || task.dueDate">
+    <div class="badge" *ngIf="task.dueDate" [class.overdue]="false">
+      <i class="fa-regular fa-clock"></i>
+      <span>{{ task.dueDate | date:'MMM d' }}</span>
+    </div>
+
+    <div class="badge" *ngIf="task.description">
+      <i class="fa-solid fa-align-left"></i>
+    </div>
+
+    <div class="badge" *ngIf="hasComments">
+      <i class="fa-regular fa-comment"></i>
+      <span>{{ task.comments?.length }}</span>
+    </div>
+
+    <div class="badge" *ngIf="hasAttachments">
+      <i class="fa-solid fa-paperclip"></i>
+      <span>{{ task.attachments?.length }}</span>
+    </div>
+  </div>
+
+  <div class="task-footer">
+    <div class="priority">
+      <i class="fa-solid" [ngClass]="getPriorityIcon(task.priority)"></i>
+    </div>
+    
+    <div class="members">
+      <div class="member-avatar" *ngFor="let a of task.assignees | slice:0:3" [title]="a.fullName">
+        {{ a.fullName ? a.fullName.charAt(0) : 'U' }}
+      </div>
+      <div class="member-avatar more" *ngIf="(task.assignees?.length || 0) > 3">
+        +{{ (task.assignees?.length || 0) - 3 }}
+      </div>
+    </div>
+  </div>
+</div>

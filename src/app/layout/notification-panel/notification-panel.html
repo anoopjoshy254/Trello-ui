@@ -1,0 +1,39 @@
+<div class="panel-overlay" (click)="close.emit()">
+  <div class="panel-content" (click)="$event.stopPropagation()">
+    <div class="panel-header">
+      <h3>Notifications</h3>
+      <div class="header-actions">
+        <button class="btn btn-text" (click)="markAllAsRead()" *ngIf="notifications.length > 0">Mark all as read</button>
+        <button class="icon-btn" (click)="close.emit()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+
+    <div class="panel-body">
+      <div class="loading-state" *ngIf="isLoading">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+      </div>
+
+      <div class="empty-state" *ngIf="!isLoading && notifications.length === 0">
+        <img src="assets/no-notifications.svg" alt="No notifications" *ngIf="false" />
+        <p>No notifications</p>
+      </div>
+
+      <div class="notification-list" *ngIf="!isLoading && notifications.length > 0">
+        <div class="notification-item" *ngFor="let notif of notifications" [class.unread]="!notif.isRead">
+          <div class="notif-icon">
+            <i class="fa-solid fa-bell text-primary"></i>
+          </div>
+          <div class="notif-content">
+            <p>{{ notif.message }}</p>
+            <span class="notif-time">{{ notif.createdAt | date:'MMM d, h:mm a' }}</span>
+          </div>
+          <div class="notif-actions" *ngIf="!notif.isRead">
+            <button class="btn-icon-small" (click)="markAsRead(notif.id)" title="Mark as read">
+              <i class="fa-solid fa-circle"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

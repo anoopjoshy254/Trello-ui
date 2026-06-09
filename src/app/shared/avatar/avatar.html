@@ -1,0 +1,4 @@
+<div class="avatar-container" [ngClass]="size">
+  <img *ngIf="src" [src]="src" alt="Avatar" class="avatar-img" />
+  <div *ngIf="!src" class="avatar-initials">{{ initials }}</div>
+</div>

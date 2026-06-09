@@ -1,0 +1,45 @@
+<div class="sidebar" [class.collapsed]="collapsed">
+  <div class="sidebar-header">
+    <div class="workspace-info" *ngIf="!collapsed">
+      <div class="workspace-icon">T</div>
+      <div class="workspace-name">Trello Workspace</div>
+    </div>
+    <button class="collapse-btn" (click)="toggleCollapse()">
+      <i class="fa-solid" [ngClass]="collapsed ? 'fa-angle-right' : 'fa-angle-left'"></i>
+    </button>
+  </div>
+
+  <div class="sidebar-content" *ngIf="!collapsed">
+    <div class="nav-section">
+      <a routerLink="/boards" class="nav-link" routerLinkActive="active">
+        <i class="fa-brands fa-trello"></i>
+        <span>Boards</span>
+      </a>
+      <a routerLink="/my-tasks" class="nav-link" routerLinkActive="active">
+        <i class="fa-solid fa-list-check"></i>
+        <span>My Tasks</span>
+      </a>
+      <a routerLink="/teams" class="nav-link" routerLinkActive="active">
+        <i class="fa-solid fa-users"></i>
+        <span>Members</span>
+      </a>
+      <a class="nav-link">
+        <i class="fa-solid fa-gear"></i>
+        <span>Workspace settings</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="section-header">
+        <span>Your boards</span>
+        <button class="add-btn"><i class="fa-solid fa-plus"></i></button>
+      </div>
+      <div class="board-list">
+        <a *ngFor="let p of projects" [routerLink]="['/boards', p.id]" class="board-item" routerLinkActive="active">
+          <div class="board-color" [style.background]="p.color || '#0052CC'"></div>
+          <span class="board-name">{{ p.name }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

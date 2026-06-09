@@ -1,0 +1,338 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+
+    <!-- Loading Spinner -->
+    <app-spinner *ngIf="isLoading" [fullScreen]="false"></app-spinner>
+
+    <!-- Close Button -->
+    <button class="close-btn" (click)="onClose()"><i class="fa-solid fa-xmark"></i></button>
+
+    <div class="task-detail-container" *ngIf="!isLoading && task">
+
+      <!-- ── Header ─────────────────────────────────── -->
+      <div class="task-header">
+        <i class="fa-regular fa-window-maximize header-icon"></i>
+        <div class="header-text">
+          <h2>{{ task.title }}</h2>
+          <p class="in-list">in list <u>{{ task.status }}</u> &middot;
+            <span [class]="getPriorityClass(task.priority)" class="priority-badge">{{ task.priority }}</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="task-body">
+        <!-- ════════════════ MAIN COLUMN ════════════════ -->
+        <div class="main-col">
+
+          <!-- ── Labels Row ──────────────────────────── -->
+          <div class="metadata-row" *ngIf="task.labels && task.labels.length > 0">
+            <div class="meta-block">
+              <h3 class="meta-label">Labels</h3>
+              <div class="labels-list">
+                <span class="label-chip" *ngFor="let label of task.labels"
+                      [style.background]="label.color">{{ label.name }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Members Row ────────────────────────── -->
+          <div class="metadata-row" *ngIf="task.assignees && task.assignees.length > 0">
+            <div class="meta-block">
+              <h3 class="meta-label">Members</h3>
+              <div class="members-list">
+                <div class="member-chip" *ngFor="let a of task.assignees" [title]="a.fullName">
+                  <app-avatar [fullName]="a.fullName" size="small"></app-avatar>
+                  <span [class.completed-member-text]="a.isCompleted">{{ a.fullName }}</span>
+                  <i *ngIf="a.isCompleted" class="fa-solid fa-circle-check completed-icon" title="Completed their part"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Due Date Row ───────────────────────── -->
+          <div class="metadata-row" *ngIf="task.dueDate || isEditingDueDate">
+            <div class="meta-block">
+              <h3 class="meta-label">Due Date</h3>
+              <div *ngIf="!isEditingDueDate" class="due-date-display"
+                   [class.overdue]="getDueDateStatus() === 'overdue'"
+                   [class.due-soon]="getDueDateStatus() === 'due-soon'"
+                   (click)="isEditingDueDate = true">
+                <i class="fa-regular fa-clock"></i>
+                {{ task.dueDate | date:'MMM d, y' }}
+                <span class="due-badge" *ngIf="getDueDateStatus() === 'overdue'">Overdue</span>
+                <span class="due-badge warning" *ngIf="getDueDateStatus() === 'due-soon'">Due Soon</span>
+              </div>
+              <div *ngIf="isEditingDueDate" class="due-date-edit">
+                <input type="date" class="form-control" [(ngModel)]="dueDateInput" />
+                <div class="edit-actions">
+                  <button class="btn btn-primary" (click)="saveDueDate()">Save</button>
+                  <button class="btn btn-text" (click)="clearDueDate()">Remove</button>
+                  <button class="btn btn-text" (click)="isEditingDueDate = false">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Description ────────────────────────── -->
+          <div class="description-section">
+            <div class="section-header">
+              <i class="fa-solid fa-align-left section-icon"></i>
+              <h3>Description</h3>
+              <button class="btn btn-secondary edit-desc-btn"
+                      *ngIf="!isEditingDescription && task.description"
+                      (click)="startEditDescription()">Edit</button>
+            </div>
+
+            <div class="description-content" *ngIf="!isEditingDescription">
+              <div *ngIf="task.description" class="description-text ql-snow"><div class="ql-editor" style="padding:0;" [innerHTML]="task.description"></div></div>
+              <div class="empty-desc" *ngIf="!task.description" (click)="startEditDescription()">
+                <i class="fa-solid fa-plus"></i> Add a more detailed description…
+              </div>
+            </div>
+
+            <div class="description-edit" *ngIf="isEditingDescription">
+              <quill-editor [(ngModel)]="descriptionInput"
+                            [modules]="{ toolbar: [['bold', 'italic', 'underline', 'strike'], ['blockquote', 'code-block'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['link']] }"
+                            placeholder="Add a more detailed description…">
+              </quill-editor>
+              <div class="edit-actions" style="margin-top: 10px;">
+                <button class="btn btn-primary" [disabled]="isSavingDescription" (click)="saveDescription()">Save</button>
+                <button class="btn btn-text" (click)="cancelEditDescription()">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Checklists ──────────────────────────── -->
+          <div class="checklist-section" *ngFor="let cl of task.checklists">
+            <div class="section-header">
+              <i class="fa-solid fa-square-check section-icon"></i>
+              <h3>{{ cl.title }}</h3>
+              <button class="btn btn-secondary" (click)="deleteChecklist(cl.id)">Delete</button>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="checklist-progress">
+              <span class="progress-pct">{{ getChecklistProgress(cl) }}%</span>
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill"
+                     [style.width.%]="getChecklistProgress(cl)"
+                     [class.complete]="getChecklistProgress(cl) === 100"></div>
+              </div>
+            </div>
+
+            <!-- Items -->
+            <div class="checklist-items">
+              <div class="checklist-item" *ngFor="let item of cl.items">
+                <input type="checkbox" [id]="'item-' + item.id"
+                       [checked]="item.isCompleted"
+                       (change)="toggleChecklistItem(item)" />
+                <label [for]="'item-' + item.id" [class.completed]="item.isCompleted">{{ item.content }}</label>
+                <button class="item-delete-btn" (click)="deleteChecklistItem(cl, item.id)">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Add Item -->
+            <div *ngIf="!isAddingItem[cl.id]">
+              <button class="btn btn-text add-item-btn" (click)="isAddingItem[cl.id] = true">
+                <i class="fa-solid fa-plus"></i> Add an item
+              </button>
+            </div>
+            <div *ngIf="isAddingItem[cl.id]" class="add-item-form">
+              <input type="text" class="form-control" [(ngModel)]="newItemTexts[cl.id]"
+                     placeholder="Add an item" (keyup.enter)="addChecklistItem(cl)" />
+              <div class="edit-actions">
+                <button class="btn btn-primary" (click)="addChecklistItem(cl)">Add</button>
+                <button class="btn btn-text" (click)="isAddingItem[cl.id] = false">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Attachments ──────────────────────────── -->
+          <div class="attachments-section" *ngIf="attachments.length > 0">
+            <div class="section-header">
+              <i class="fa-solid fa-paperclip section-icon"></i>
+              <h3>Attachments</h3>
+            </div>
+            <div class="attachments-list">
+              <div class="attachment-item" *ngFor="let attachment of attachments">
+                <div class="attachment-thumbnail">
+                  <span class="ext">{{ attachment.fileExtension }}</span>
+                </div>
+                <div class="attachment-details">
+                  <p class="attachment-name">{{ attachment.originalFileName }}</p>
+                  <p class="attachment-meta">
+                    Added {{ attachment.uploadedAt | date:'MMM d, h:mm a' }} &middot;
+                    <button class="btn btn-text btn-sm" (click)="downloadAttachment(attachment)">Download</button> &middot;
+                    <button class="btn btn-text btn-sm" *ngIf="attachment.uploadedByUserId === currentUserId" (click)="deleteAttachment(attachment.id)">Delete</button>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Activity & Comments ────────────────── -->
+          <div class="activity-section">
+            <div class="section-header">
+              <i class="fa-solid fa-list-ul section-icon"></i>
+              <h3>Activity</h3>
+            </div>
+
+            <div class="comment-box">
+              <app-avatar [fullName]="'Me'" size="medium"></app-avatar>
+              <div class="comment-input-area" [class.focused]="isCommentFocused">
+                <div *ngIf="!isCommentFocused" (click)="isCommentFocused = true" class="comment-placeholder">
+                  Write a comment…
+                </div>
+                <quill-editor *ngIf="isCommentFocused"
+                              [(ngModel)]="newCommentText"
+                              [modules]="{ toolbar: [['bold', 'italic', 'underline', 'strike'], ['blockquote', 'code-block'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['link']] }"
+                              placeholder="Write a comment…">
+                </quill-editor>
+                <div class="comment-actions" *ngIf="isCommentFocused || newCommentText">
+                  <button class="btn btn-primary"
+                          [disabled]="!newCommentText.trim() || isPostingComment"
+                          (click)="addComment()">Save</button>
+                  <button class="btn btn-text" (click)="isCommentFocused = false; newCommentText = ''">Discard</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="comments-list">
+              <div class="comment-item" *ngFor="let comment of task.comments">
+                <app-avatar [fullName]="comment.authorName || 'User'" size="medium"></app-avatar>
+                <div class="comment-content">
+                  <div class="comment-header">
+                    <span class="comment-author">{{ comment.authorName }}</span>
+                    <span class="comment-time">{{ comment.createdAt | date:'MMM d, h:mm a' }}</span>
+                    <span class="edited-badge" *ngIf="comment.isEdited">edited</span>
+                  </div>
+                  
+                  <div *ngIf="editingCommentId !== comment.id">
+                    <div class="comment-body ql-snow"><div class="ql-editor" style="padding:0;" [innerHTML]="comment.content"></div></div>
+                    <div class="comment-item-actions" *ngIf="comment.userId === currentUserId">
+                      <button class="btn btn-text btn-sm" (click)="startEditComment(comment)">Edit</button>
+                      <button class="btn btn-text btn-sm" (click)="deleteComment(comment.id)">Delete</button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="editingCommentId === comment.id" class="comment-edit">
+                    <quill-editor [(ngModel)]="editCommentText"
+                                  [modules]="{ toolbar: [['bold', 'italic', 'underline', 'strike'], ['blockquote', 'code-block'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['link']] }"
+                                  placeholder="Edit comment…">
+                    </quill-editor>
+                    <div class="edit-actions" style="margin-top: 10px;">
+                      <button class="btn btn-primary btn-sm" (click)="saveComment(comment)">Save</button>
+                      <button class="btn btn-text btn-sm" (click)="cancelEditComment()">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="activity-timeline" *ngIf="activityLogs.length > 0">
+              <div class="activity-item" *ngFor="let log of activityLogs">
+                <app-avatar [fullName]="'User'" size="small"></app-avatar>
+                <div class="activity-content">
+                  <span class="activity-user">User</span>
+                  <span class="activity-action">{{ log.action }}</span>
+                  <span class="activity-time">{{ log.timestamp | date:'MMM d, h:mm a' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /main-col -->
+
+        <!-- ════════════════ SIDEBAR ════════════════ -->
+        <div class="sidebar-col">
+
+          <div class="sidebar-module">
+            <h3>Add to card</h3>
+
+            <!-- Members -->
+            <button class="sidebar-btn" (click)="toggleMembersPanel()">
+              <i class="fa-regular fa-user"></i> Members
+            </button>
+
+            <!-- Members picker panel -->
+            <div class="labels-panel members-panel" *ngIf="isMembersPanelOpen" (click)="$event.stopPropagation()">
+              <h4>Members</h4>
+              <div class="label-option" *ngFor="let member of projectMembers"
+                   (click)="toggleMember(member)"
+                   [class.applied]="isMemberAssigned(member.userId)">
+                <app-avatar [fullName]="member.fullName" size="small"></app-avatar>
+                <span class="label-option-name" style="margin-left: 8px;">{{ member.fullName }}</span>
+                <i class="fa-solid fa-check" *ngIf="isMemberAssigned(member.userId)"></i>
+              </div>
+            </div>
+
+            <!-- Labels -->
+            <button class="sidebar-btn" (click)="toggleLabelsPanel()">
+              <i class="fa-solid fa-tag"></i> Labels
+            </button>
+
+            <!-- Label picker panel -->
+            <div class="labels-panel" *ngIf="isLabelsPanelOpen" (click)="$event.stopPropagation()">
+              <h4>Labels</h4>
+              <div class="label-option" *ngFor="let label of projectLabels"
+                   (click)="toggleLabel(label)"
+                   [class.applied]="isLabelApplied(label)">
+                <span class="label-swatch" [style.background]="label.color"></span>
+                <span class="label-option-name">{{ label.name }}</span>
+                <i class="fa-solid fa-check" *ngIf="isLabelApplied(label)"></i>
+              </div>
+              <div class="create-label-form">
+                <p class="create-label-title">Create a label</p>
+                <div class="color-swatches">
+                  <span *ngFor="let c of LABEL_COLORS" class="color-swatch"
+                        [style.background]="c"
+                        [class.selected]="newLabelColor === c"
+                        (click)="newLabelColor = c"></span>
+                </div>
+                <input type="text" class="form-control" [(ngModel)]="newLabelName" placeholder="Label name" />
+                <button class="btn btn-primary btn-sm" (click)="createLabel()">Create</button>
+              </div>
+            </div>
+
+            <!-- Checklist -->
+            <button class="sidebar-btn" (click)="isAddingChecklist = true">
+              <i class="fa-solid fa-square-check"></i> Checklist
+            </button>
+
+            <!-- New Checklist form -->
+            <div class="add-checklist-form" *ngIf="isAddingChecklist">
+              <input type="text" class="form-control" [(ngModel)]="newChecklistTitle"
+                     placeholder="Checklist title…" (keyup.enter)="addChecklist()" />
+              <div class="edit-actions">
+                <button class="btn btn-primary btn-sm" (click)="addChecklist()">Add</button>
+                <button class="btn btn-text" (click)="isAddingChecklist = false">Cancel</button>
+              </div>
+            </div>
+
+            <!-- Due Date -->
+            <button class="sidebar-btn" (click)="isEditingDueDate = true">
+              <i class="fa-regular fa-clock"></i> Dates
+            </button>
+
+            <!-- Attachment -->
+            <button class="sidebar-btn" (click)="fileInput.click()">
+              <i class="fa-solid fa-paperclip"></i> Attachment
+            </button>
+            <input type="file" #fileInput (change)="onFileUpload($event)" style="display: none;" />
+          </div>
+
+          <div class="sidebar-module">
+            <h3>Actions</h3>
+            <button class="sidebar-btn"><i class="fa-solid fa-arrow-right"></i> Move</button>
+            <button class="sidebar-btn"><i class="fa-regular fa-copy"></i> Copy</button>
+            <button class="sidebar-btn"><i class="fa-solid fa-box-archive"></i> Archive</button>
+            <button class="sidebar-btn danger"><i class="fa-solid fa-trash"></i> Delete</button>
+          </div>
+
+        </div><!-- /sidebar-col -->
+      </div><!-- /task-body -->
+    </div><!-- /task-detail-container -->
+  </div><!-- /modal-content -->
+</div><!-- /modal-overlay -->

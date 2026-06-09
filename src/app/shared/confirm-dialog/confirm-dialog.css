@@ -1,0 +1,90 @@
+.dialog-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.dialog-content {
+  background-color: var(--trello-surface);
+  border-radius: 3px;
+  width: 400px;
+  max-width: 90vw;
+  box-shadow: 0 8px 16px -4px rgba(9, 30, 66, 0.25), 0 0 0 1px rgba(9, 30, 66, 0.08);
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--trello-border);
+}
+
+.dialog-header h3 {
+  margin: 0;
+  font-size: 16px;
+  color: var(--trello-text);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--trello-text-subtle);
+  font-size: 16px;
+  padding: 4px;
+}
+
+.close-btn:hover {
+  color: var(--trello-text);
+}
+
+.dialog-body {
+  padding: 20px;
+  color: var(--trello-text);
+  font-size: 14px;
+}
+
+.dialog-footer {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn {
+  padding: 6px 12px;
+  border-radius: 3px;
+  font-weight: 500;
+  font-size: 14px;
+  border: none;
+}
+
+.cancel-btn {
+  background-color: transparent;
+  color: var(--trello-text);
+}
+
+.cancel-btn:hover {
+  background-color: rgba(9, 30, 66, 0.04);
+}
+
+.confirm-btn {
+  background-color: var(--trello-blue);
+  color: white;
+}
+
+.confirm-btn:hover {
+  background-color: var(--trello-blue-dark);
+}
+
+.danger-btn {
+  background-color: var(--trello-red);
+}
+
+.danger-btn:hover {
+  background-color: #DE350B; /* Trello dark red */
+}

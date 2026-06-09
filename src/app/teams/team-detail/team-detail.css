@@ -1,0 +1,323 @@
+.layout-container {
+  display: flex;
+  height: calc(100vh - 44px);
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+  background-color: var(--trello-surface);
+}
+
+.team-container {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.team-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.team-header-content {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.team-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 3px;
+  background: linear-gradient(to bottom right, #6554C0, #8777D9);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+.team-info h1 {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  color: var(--trello-text);
+}
+
+.team-info p {
+  display: block;
+  font-size: 13px;
+  color: var(--trello-text-subtle);
+  margin-bottom: 4px;
+}
+
+.invite-email-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.invite-email-box p {
+  color: var(--trello-text-subtle);
+  margin: 0;
+}
+
+.invite-email-box strong {
+  color: var(--trello-text);
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 3px;
+  font-weight: 500;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--trello-blue);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--trello-blue-dark);
+}
+
+.btn-secondary {
+  background-color: rgba(9, 30, 66, 0.04);
+  color: var(--trello-text);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(9, 30, 66, 0.08);
+}
+
+.btn-sm {
+  padding: 4px 12px;
+  font-size: 12px;
+}
+
+.team-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--trello-border);
+  margin-bottom: 24px;
+}
+
+.tab {
+  padding: 8px 16px;
+  color: var(--trello-text-subtle);
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.tab:hover {
+  color: var(--trello-text);
+}
+
+.tab.active {
+  color: var(--trello-blue);
+  border-bottom-color: var(--trello-blue);
+}
+
+.members-section {
+  padding: 16px 0;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: var(--trello-text);
+}
+
+.section-desc {
+  margin: 0 0 24px 0;
+  font-size: 14px;
+  color: var(--trello-text-subtle);
+}
+
+.members-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.member-item {
+  display: flex;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--trello-border);
+}
+
+.member-details {
+  flex: 1;
+  margin-left: 16px;
+}
+
+.member-details h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  color: var(--trello-text);
+}
+
+.member-details p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--trello-text-subtle);
+}
+
+.member-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.role-badge {
+  font-size: 14px;
+  color: var(--trello-text-subtle);
+  background-color: rgba(9, 30, 66, 0.04);
+  padding: 4px 8px;
+  border-radius: 3px;
+}
+
+.remove-btn {
+  color: var(--trello-text-subtle);
+}
+
+.remove-btn:hover {
+  background-color: var(--trello-red);
+  color: white;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.64);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  width: 500px;
+  border-radius: 3px;
+  box-shadow: 0 8px 16px -4px rgba(9, 30, 66, 0.25);
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--trello-border);
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 20px;
+  color: var(--trello-text);
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: var(--trello-text-subtle);
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.close-btn:hover {
+  color: var(--trello-text);
+}
+
+.modal-body {
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.search-box {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  border: 2px solid var(--trello-border);
+  border-radius: 3px;
+  transition: border-color 0.2s;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--trello-blue-light);
+}
+
+.search-spinner {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--trello-text-subtle);
+}
+
+.search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.search-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 3px;
+  background-color: var(--trello-bg);
+}
+
+.user-info {
+  flex: 1;
+  margin-left: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: 500;
+  color: var(--trello-text);
+  font-size: 14px;
+}
+
+.user-email {
+  font-size: 12px;
+  color: var(--trello-text-subtle);
+}
+
+.empty-results {
+  padding: 16px;
+  text-align: center;
+  color: var(--trello-text-subtle);
+  font-style: italic;
+}

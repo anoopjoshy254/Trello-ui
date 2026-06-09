@@ -1,0 +1,106 @@
+<app-header></app-header>
+
+<div class="layout-container">
+  <app-sidebar [collapsed]="isSidebarCollapsed"></app-sidebar>
+  
+  <div class="main-content" [style.backgroundColor]="project?.color || 'var(--trello-blue)'">
+    <app-spinner *ngIf="isLoading" [fullScreen]="false" message=""></app-spinner>
+
+    <div class="board-header" *ngIf="project && !isLoading">
+      <h1 class="board-name">{{ project.name }}</h1>
+      <div class="board-actions">
+        <button class="header-btn"><i class="fa-regular fa-star"></i></button>
+        <div class="divider"></div>
+        <button class="header-btn">Workspace visible</button>
+        <div class="divider"></div>
+        <div class="board-members">
+          <div class="member-avatar">AK</div>
+          <button class="header-btn member-add">Share</button>
+        </div>
+        <div class="divider"></div>
+        <button class="header-btn"><i class="fa-solid fa-ellipsis"></i></button>
+      </div>
+    </div>
+
+    <div class="board-canvas" *ngIf="project && !isLoading">
+      <div class="lists-container" cdkDropListGroup>
+        
+        <div class="list-wrapper" *ngFor="let col of columns">
+          <div class="list">
+            <div class="list-header">
+              <h2 class="list-title">{{ col.title }}</h2>
+              <button class="list-action-btn"><i class="fa-solid fa-ellipsis"></i></button>
+            </div>
+
+            <div class="list-cards" 
+                 cdkDropList
+                 [cdkDropListData]="col.tasks"
+                 [id]="col.id"
+                 (cdkDropListDropped)="drop($event)">
+              
+              <app-task-card 
+                *ngFor="let task of col.tasks" 
+                [task]="task"
+                cdkDrag
+                (cardClick)="openTaskDetails($event)">
+                
+                <!-- Custom placeholder for drag -->
+                <div *cdkDragPlaceholder class="drag-placeholder"></div>
+              </app-task-card>
+
+              <!-- Add Card Form -->
+              <div class="add-card-form" *ngIf="addingTaskToCol === col.id">
+                <textarea 
+                  class="add-card-input" 
+                  placeholder="Enter a title for this card..." 
+                  [(ngModel)]="newTaskTitle"
+                  (keydown.enter)="saveNewTask(col.id); $event.preventDefault()"
+                  autofocus>
+                </textarea>
+                <div class="add-card-controls">
+                  <button class="btn btn-primary add-btn" (click)="saveNewTask(col.id)">Add card</button>
+                  <button class="icon-btn cancel-btn" (click)="cancelAddTask()"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="list-footer" *ngIf="addingTaskToCol !== col.id">
+              <button class="open-add-card" (click)="openAddTask(col.id)">
+                <i class="fa-solid fa-plus"></i> Add a card
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="list-wrapper add-list-wrapper">
+          <button class="add-list-btn" *ngIf="!isAddingList" (click)="openAddList()">
+            <i class="fa-solid fa-plus"></i> Add another list
+          </button>
+          
+          <div class="add-list-form" *ngIf="isAddingList">
+            <input 
+              type="text" 
+              class="add-list-input" 
+              placeholder="Enter list title..." 
+              [(ngModel)]="newListTitle"
+              (keydown.enter)="saveNewList()"
+              autofocus>
+            <div class="add-list-controls">
+              <button class="btn btn-primary add-btn" (click)="saveNewList()">Add list</button>
+              <button class="icon-btn cancel-btn" (click)="cancelAddList()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-task-detail 
+  [taskId]="selectedTaskId!" 
+  [isOpen]="isTaskDetailOpen"
+  [refreshTrigger]="taskDetailRefreshTrigger"
+  (close)="closeTaskDetails()"
+  (taskUpdated)="onTaskUpdated($event)">
+</app-task-detail>
