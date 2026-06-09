@@ -6,7 +6,7 @@ import { ApiResponse, Label } from '../core/models/api.models';
 @Injectable({ providedIn: 'root' })
 export class LabelService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:5271/api/labels';
+  private baseUrl = 'http://localhost:5095/api/labels';
 
   getLabels(projectId: number): Observable<ApiResponse<Label[]>> {
     const params = new HttpParams().set('projectId', projectId.toString());

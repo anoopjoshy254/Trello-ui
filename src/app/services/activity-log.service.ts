@@ -8,7 +8,7 @@ import { ApiResponse, ActivityLog } from '../core/models/api.models';
 })
 export class ActivityLogService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:5271/api/activitylogs';
+  private baseUrl = 'http://localhost:5095/api/activitylogs';
 
   getTaskLogs(taskId: number): Observable<ApiResponse<ActivityLog[]>> {
     return this.http.get<ApiResponse<ActivityLog[]>>(`${this.baseUrl}/task/${taskId}`);

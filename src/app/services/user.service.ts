@@ -8,7 +8,7 @@ import { ApiResponse, PagedResult, User } from '../core/models/api.models';
 })
 export class UserService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:5271/api/users';
+  private baseUrl = 'http://localhost:5095/api/users';
 
   getUsers(page: number = 1, pageSize: number = 10, search: string = ''): Observable<ApiResponse<PagedResult<User>>> {
     let params = new HttpParams()

@@ -8,7 +8,7 @@ import { ApiResponse, Project } from '../core/models/api.models';
 })
 export class ProjectService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:5271/api/projects';
+  private baseUrl = 'http://localhost:5095/api/projects';
 
   createProject(dto: any): Observable<ApiResponse<any>> {
     return this.http.post<ApiResponse<any>>(this.baseUrl, dto);

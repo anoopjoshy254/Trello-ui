@@ -8,7 +8,7 @@ import { ApiResponse, Attachment } from '../core/models/api.models';
 })
 export class AttachmentService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:5271/api/attachments';
+  private baseUrl = 'http://localhost:5095/api/attachments';
 
   uploadAttachment(taskId: number, file: File): Observable<ApiResponse<any>> {
     const formData = new FormData();

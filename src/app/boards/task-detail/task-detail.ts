@@ -384,7 +384,7 @@ export class TaskDetailComponent implements OnInit, OnChanges {
   }
 
   downloadAttachment(attachment: Attachment) {
-    window.open(`http://localhost:5271${attachment.downloadUrl}`, '_blank');
+    window.open(`http://localhost:5095${attachment.downloadUrl}`, '_blank');
   }
 
   deleteAttachment(id: number) {

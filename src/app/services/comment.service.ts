@@ -8,7 +8,7 @@ import { ApiResponse, Comment } from '../core/models/api.models';
 })
 export class CommentService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:5271/api/comments';
+  private baseUrl = 'http://localhost:5095/api/comments';
 
   createComment(dto: any): Observable<ApiResponse<any>> {
     return this.http.post<ApiResponse<any>>(this.baseUrl, dto);
