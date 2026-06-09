@@ -4,9 +4,9 @@ agent any
  
 environment {
  
-IMAGE = "linkedin-frontend:${BUILD_NUMBER}"
+IMAGE = "trello-ui:${BUILD_NUMBER}"
  
-CONT = "linkedin-frontend"
+CONT = "trello-ui"
  
 }
  
