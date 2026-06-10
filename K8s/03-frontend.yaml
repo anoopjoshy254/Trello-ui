@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trello-ui
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: trello-ui
+  template:
+    metadata:
+      labels:
+        app: trello-ui
+    spec:
+      containers:
+        - name: trello-ui
+          image: <ACR_NAME>.azurecr.io/trello-ui:latest
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trello-ui
+spec:
+  type: LoadBalancer
+  selector:
+    app: trello-ui
+  ports:
+    - port: 80
+      targetPort: 80
