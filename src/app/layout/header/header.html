@@ -4,9 +4,9 @@
       <i class="fa-solid fa-table-list"></i>
       <span class="logo-text">Trello</span>
     </a>
-    
+
     <nav class="main-nav" *ngIf="authService.isLoggedIn()">
-      <div class="nav-item">Workspaces <i class="fa-solid fa-chevron-down ms-1"></i></div>
+      <div class="nav-item">Hello <i class="fa-solid fa-chevron-down ms-1"></i></div>
       <div class="nav-item">Recent <i class="fa-solid fa-chevron-down ms-1"></i></div>
       <div class="nav-item">Starred <i class="fa-solid fa-chevron-down ms-1"></i></div>
       <button class="create-btn">Create</button>
@@ -42,14 +42,12 @@
       </div>
     </div>
   </div>
-  
+
   <div class="header-right guest" *ngIf="!authService.isLoggedIn()">
     <a routerLink="/login" class="nav-link">Log in</a>
     <a routerLink="/register" class="btn btn-primary">Sign up</a>
   </div>
 
-  <app-notification-panel 
-    *ngIf="isNotificationPanelOpen" 
-    (close)="isNotificationPanelOpen = false">
+  <app-notification-panel *ngIf="isNotificationPanelOpen" (close)="isNotificationPanelOpen = false">
   </app-notification-panel>
 </header>
