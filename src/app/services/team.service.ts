@@ -8,7 +8,7 @@ import { ApiResponse, Team, TeamMember } from '../core/models/api.models';
 })
 export class TeamService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:5095/api/teams';
+  private baseUrl = 'http://4.188.1.67:5000/api/teams';
 
   createTeam(dto: any): Observable<ApiResponse<any>> {
     return this.http.post<ApiResponse<any>>(this.baseUrl, dto);

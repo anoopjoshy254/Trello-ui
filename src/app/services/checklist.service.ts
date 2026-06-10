@@ -6,7 +6,7 @@ import { ApiResponse, Checklist, ChecklistItem } from '../core/models/api.models
 @Injectable({ providedIn: 'root' })
 export class ChecklistService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:5095/api/checklists';
+  private baseUrl = 'http://4.188.1.67:5000/api/checklists';
 
   getChecklists(taskId: number): Observable<ApiResponse<Checklist[]>> {
     const params = new HttpParams().set('taskId', taskId.toString());

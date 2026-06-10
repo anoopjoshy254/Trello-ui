@@ -8,7 +8,7 @@ import { ApiResponse, Notification } from '../core/models/api.models';
 })
 export class NotificationService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:5095/api/notifications';
+  private baseUrl = 'http://4.188.1.67:5000/api/notifications';
 
   getNotifications(unreadOnly: boolean = false): Observable<ApiResponse<Notification[]>> {
     const params = new HttpParams().set('unreadOnly', unreadOnly.toString());

@@ -22,7 +22,7 @@ export class SignalrService {
   constructor() {}
 
   public async startConnection(projectId: number): Promise<void> {
-    const hubUrl = 'http://localhost:5095/boardHub';
+    const hubUrl = 'http://4.188.1.67:5000/boardHub';
     
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(hubUrl)

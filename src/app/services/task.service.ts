@@ -8,7 +8,7 @@ import { ApiResponse, PagedResult, Task } from '../core/models/api.models';
 })
 export class TaskService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:5095/api/tasks';
+  private baseUrl = 'http://4.188.1.67:5000/api/tasks';
 
   createTask(dto: any): Observable<ApiResponse<any>> {
     return this.http.post<ApiResponse<any>>(this.baseUrl, dto);

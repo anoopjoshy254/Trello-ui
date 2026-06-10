@@ -10,7 +10,7 @@ import { ApiResponse, JwtResponse } from '../core/models/api.models';
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
-  private baseUrl = 'http://localhost:5095/api/auth';
+  private baseUrl = 'http://4.188.1.67:5000/api/auth';
 
   private currentUserSubject = new BehaviorSubject<number | null>(this.getCurrentUserId());
 
