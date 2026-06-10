@@ -91,3 +91,5 @@ pipeline {
         always  { bat 'az logout || exit 0' }
 
     }
+
+}
